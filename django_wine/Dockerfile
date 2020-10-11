@@ -1,10 +1,10 @@
-FROM python:3.7.5
+FROM debian:10.5
 
 # wine insall
 RUN set -ex && \
     dpkg --add-architecture i386 && \
     apt-get update && \
-    apt-get -y install gnupg2 software-properties-common && \
+    apt-get -y install gnupg2 software-properties-common wget && \
     wget -qO - https://dl.winehq.org/wine-builds/winehq.key | apt-key add && \
     apt-add-repository https://dl.winehq.org/wine-builds/debian && \
     wget -O- -q https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_10/Release.key | apt-key add - && \
@@ -29,14 +29,15 @@ RUN set -ex && \
 	rm -rf /var/lib/apt/lists/*
 
 # useradd
-RUN addgroup -S django && adduser -S django -G django
+RUN useradd django
 USER django
 WORKDIR /home/django
 
 # django 8000, vnc server 5900
 EXPOSE 8000 5900
 
-#COPY entrypoint.sh entrypoint.sh
+COPY entrypoint.sh entrypoint.sh
 
-ENTRYPOINT ["entrypoint.sh"]
-CMD ["python3"]
+ENTRYPOINT ["bash", "entrypoint.sh"]
+
+CMD ["bash"]
