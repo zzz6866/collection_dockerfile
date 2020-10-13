@@ -20,6 +20,9 @@ RUN set -ex && \
     apt-add-repository contrib && \
     apt-get update && apt-get install -y --install-recommends wine-stable winetricks
 
+RUN wget -P /opt/wine-stable/share/wine/mono https://dl.winehq.org/wine/wine-mono/5.1.1/wine-mono-5.1.1-x86.msi
+RUN wget -P /opt/wine-stable/share/wine/gecko https://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86.msi
+
 # install novnc
 RUN apt-get install -y x11vnc xvfb fluxbox novnc supervisor
 
