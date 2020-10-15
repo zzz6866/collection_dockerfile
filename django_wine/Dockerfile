@@ -29,8 +29,20 @@ RUN apt-get install -y x11vnc xvfb fluxbox novnc supervisor
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 
+# setting language
+RUN apt-get install  -y language-pack-ko
+RUN locale-gen ko_KR.UTF-8
+ENV LANG ko_KR.UTF-8
+ENV LANGUAGE ko_KR.UTF-8
+ENV LC_ALL ko_KR.UTF-8
+
+
+
 # default packages install
-RUN apt-get install -y git pwgen net-tools vim
+RUN apt-get install -y git pwgen net-tools vim fonts-nanum*
+
+# setting font
+RUN fc-cache -fv
 
 # apt-get clean
 RUN set -ex && \
