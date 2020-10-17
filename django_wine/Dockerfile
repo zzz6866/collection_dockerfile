@@ -29,9 +29,10 @@ RUN apt-get install -y x11vnc xvfb fluxbox novnc supervisor
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 
-# setting language
-RUN apt-get install  -y language-pack-ko
+# setting language utf-8 korea
+RUN apt-get install -y locales
 RUN locale-gen ko_KR.UTF-8
+RUN localedef -i ko_KR -f UTF-8 ko_KR
 ENV LANG ko_KR.UTF-8
 ENV LANGUAGE ko_KR.UTF-8
 ENV LC_ALL ko_KR.UTF-8
