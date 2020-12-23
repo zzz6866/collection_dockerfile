@@ -2,7 +2,7 @@ FROM buildpack-deps:buster
 
 ENV DJANGO_SETTINGS_MODULE alldev.settings.production
 ENV WINEPREFIX /root/.wine32
-ENV WINARCH win32 winetricks corefonts win10
+ENV WINEARCH win32 winecfg
 ENV DISPLAY :0
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -18,7 +18,7 @@ RUN set -ex && \
     wget -O- -q https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_10/Release.key | apt-key add - && \
     echo "deb http://download.opensuse.org/repositories/Emulators:/Wine:/Debian/Debian_10 ./" | tee /etc/apt/sources.list.d/wine-obs.list && \
     apt-add-repository contrib && \
-    apt-get update && apt-get install -y --install-recommends wine-stable winetricks
+    apt-get update && apt-get install -y --install-recommends winehq-stable winetricks
 
 RUN wget -P /opt/wine-stable/share/wine/mono https://dl.winehq.org/wine/wine-mono/5.1.1/wine-mono-5.1.1-x86.msi
 RUN wget -P /opt/wine-stable/share/wine/gecko https://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86.msi
