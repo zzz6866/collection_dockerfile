@@ -2,7 +2,7 @@ FROM buildpack-deps:buster
 
 ENV DJANGO_SETTINGS_MODULE alldev.settings.production
 ENV WINEPREFIX /root/.wine32
-ENV WINEARCH win32 winecfg
+ENV WINEARCH win32
 ENV DISPLAY :0
 ENV DEBIAN_FRONTEND noninteractive
 
