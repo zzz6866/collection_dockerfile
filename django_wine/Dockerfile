@@ -5,6 +5,7 @@ ENV WINEPREFIX /root/.wine32
 ENV WINEARCH win32
 ENV DISPLAY :0
 ENV DEBIAN_FRONTEND noninteractive
+ENV WINEDEBUG fixme-all
 
 # wine insall
 # => https://computingforgeeks.com/how-to-install-wine-on-debian/
@@ -20,14 +21,24 @@ RUN set -ex && \
     apt-add-repository contrib && \
     apt-get update && apt-get install -y --install-recommends winehq-stable winetricks
 
-RUN wget -P /opt/wine-stable/share/wine/mono https://dl.winehq.org/wine/wine-mono/5.1.1/wine-mono-5.1.1-x86.msi
-RUN wget -P /opt/wine-stable/share/wine/gecko https://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86.msi
-
 # install novnc
 RUN apt-get install -y x11vnc xvfb fluxbox novnc supervisor
 
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# mono download
+RUN wget -P /opt/wine-stable/share/wine/mono https://dl.winehq.org/wine/wine-mono/5.1.1/wine-mono-5.1.1-x86.msi
+#wine msiexec /i /opt/wine-stable/share/wine/mono/wine-mono-5.1.1-x86.msi
 
+# gecko download
+RUN wget -P /opt/wine-stable/share/wine/gecko https://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86.msi
+#wine msiexec /i /opt/wine-stable/share/wine/gecko/wine-gecko-2.47.1-x86.msi
+
+# python 3.7.5 install & venv setting
+#RUN cd /tmp && \
+#    wget https://www.python.org/ftp/python/3.7.5/python-3.7.5.exe && \
+#    wine python-3.7.5.exe /quiet InstallAllUsers=0 PrependPath=1 Include_test=0 && \
+#    wine python -m venv /venv
+
+ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # setting language utf-8 korea
 RUN apt-get install -y locales
@@ -36,7 +47,6 @@ RUN localedef -i ko_KR -f UTF-8 ko_KR
 ENV LANG ko_KR.UTF-8
 ENV LANGUAGE ko_KR.UTF-8
 ENV LC_ALL ko_KR.UTF-8
-
 
 
 # default packages install
